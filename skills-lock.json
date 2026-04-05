@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "skills": {
+    "agent-email-inbox": {
+      "source": "resend/resend-skills",
+      "sourceType": "github",
+      "computedHash": "29f6342d819e25515c7af5b9e82172b25cec7c73447274de8342920ae324657a"
+    },
+    "ai-elements": {
+      "source": "vercel/ai-elements",
+      "sourceType": "github",
+      "computedHash": "7e81acdd3028bb68aa4387b2bd083c5812a50e2be1bea08c76994dcfb8f6a3d3"
+    },
+    "ai-sdk": {
+      "source": "vercel-labs/ai",
+      "sourceType": "github",
+      "computedHash": "81af098a4ce6f0e323c1bd02b8e79df3bbaed57cbf1c4060f58ddc95de5545a1"
+    },
+    "email-best-practices": {
+      "source": "resend/resend-skills",
+      "sourceType": "github",
+      "computedHash": "1cf0c994b9e50a52e26ea72ae93a36f2f6592eca7debad1ee0ae757a2d37ef0a"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "computedHash": "9e1c8b3103f92fa8092568a44fe64858de7c5c9dc65ce4bea8f168080e889cfd"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "computedHash": "516bd2154eb843a8240e43d5b285229129853114ad7075a5e141e1c08e408c84"
+    },
+    "react-email": {
+      "source": "resend/resend-skills",
+      "sourceType": "github",
+      "computedHash": "f0dcf5ccaf3b11c4f959521cb9e2ed234475f96517209aeec4bea7c5fcca9b24"
+    },
+    "resend": {
+      "source": "resend/resend-skills",
+      "sourceType": "github",
+      "computedHash": "0b7ca6d79f000d8883c2039c7c72ec1293ce7f21961aa071bbd561a3da175931"
+    },
+    "resend-cli": {
+      "source": "resend/resend-skills",
+      "sourceType": "github",
+      "computedHash": "471b9e45350af0ecaecc314758b9689e1f87bb0bef3a5e50cfa33365b2b9996e"
+    },
+    "shadcn": {
+      "source": "vercel-labs/json-render",
+      "sourceType": "github",
+      "computedHash": "d6a9be8eeedea18343b5b15d6ac481a55436fe40db4b65d59858388072c239c4"
+    },
+    "supabase-postgres-best-practices": {
+      "source": "supabase/agent-skills",
+      "sourceType": "github",
+      "computedHash": "e3ba3d760c5f4cc43b02a91fb8924f726c7818f95cc35d79d0a606ca622b72f5"
+    },
+    "tiptap": {
+      "source": "ueberdosis/tiptap",
+      "sourceType": "github",
+      "computedHash": "60765ba8cb8a71503e6f14bb3a7a6ee77b34b1d98cd04b60b1bfcbb7c41ba9c7"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "computedHash": "6337038fe1fe6bbe1b9f252ab678ee575859190bab6f0f246f4061824eb40875"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "43ca6c197f8ec13055079da7053232d477068b03ca443f9ac1bc819b95cdd432"
+    }
+  }
+}
