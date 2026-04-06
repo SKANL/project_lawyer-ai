@@ -61,6 +61,11 @@
       "sourceType": "github",
       "computedHash": "d6a9be8eeedea18343b5b15d6ac481a55436fe40db4b65d59858388072c239c4"
     },
+    "stripe-best-practices": {
+      "source": "stripe/ai",
+      "sourceType": "github",
+      "computedHash": "4ee6d05767d117ab63a5c7c016f26b5e2083bdbe23053cb9eccebc1d728d048f"
+    },
     "supabase-postgres-best-practices": {
       "source": "supabase/agent-skills",
       "sourceType": "github",
