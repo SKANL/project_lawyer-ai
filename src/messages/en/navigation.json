@@ -1,0 +1,17 @@
+{
+  "dashboard": "Dashboard",
+  "clients": "Clients",
+  "cases": "Cases",
+  "tasks": "Tasks",
+  "documents": "Documents",
+  "templates": "Templates",
+  "billing": "Billing",
+  "settings": "Settings",
+  "help": "Help",
+  "logout": "Sign out",
+  "profile": "My profile",
+  "organization": "My firm",
+  "notifications": "Notifications",
+  "newCase": "New case",
+  "newClient": "New client"
+}

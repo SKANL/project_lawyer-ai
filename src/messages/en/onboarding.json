@@ -1,0 +1,43 @@
+{
+  "title": "Set up your firm",
+  "steps": {
+    "organization": {
+      "title": "Your firm",
+      "subtitle": "What's the name of your firm or legal practice?",
+      "nameLabel": "Firm name",
+      "namePlaceholder": "E.g.: Smith & Associates",
+      "countryLabel": "Country",
+      "countryPlaceholder": "Select your country"
+    },
+    "plan": {
+      "title": "Choose your plan",
+      "subtitle": "Start free for 14 days. No credit card required.",
+      "billingMonthly": "Monthly",
+      "billingAnnual": "Annual",
+      "annualDiscount": "Save 20%"
+    },
+    "team": {
+      "title": "Invite your team",
+      "subtitle": "Working with others? Invite them now or later.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "colleague@email.com",
+      "roleLabel": "Role",
+      "roleMember": "Attorney",
+      "roleAdmin": "Admin",
+      "addMember": "Add",
+      "skipStep": "Skip for now",
+      "inviteSent": "Invitation sent"
+    },
+    "template": {
+      "title": "Your first template",
+      "subtitle": "Choose a template to start your first case",
+      "skipStep": "Skip for now"
+    },
+    "welcome": {
+      "title": "You're all set!",
+      "subtitle": "Your firm {orgName} is ready. Let's go to the dashboard.",
+      "goToDashboard": "Go to dashboard"
+    }
+  },
+  "stepOf": "Step {current} of {total}"
+}

@@ -1,0 +1,43 @@
+{
+  "title": "Configura tu despacho",
+  "steps": {
+    "organization": {
+      "title": "Tu despacho",
+      "subtitle": "¿Cómo se llama tu despacho o práctica legal?",
+      "nameLabel": "Nombre del despacho",
+      "namePlaceholder": "Ej: Pérez & Asociados",
+      "countryLabel": "País",
+      "countryPlaceholder": "Selecciona tu país"
+    },
+    "plan": {
+      "title": "Elige tu plan",
+      "subtitle": "Comienza gratis 14 días. Sin tarjeta de crédito.",
+      "billingMonthly": "Mensual",
+      "billingAnnual": "Anual",
+      "annualDiscount": "Ahorra 20%"
+    },
+    "team": {
+      "title": "Invita a tu equipo",
+      "subtitle": "¿Trabajas con alguien más? Puedes invitarlos ahora o después.",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "colega@correo.com",
+      "roleLabel": "Rol",
+      "roleMember": "Abogado",
+      "roleAdmin": "Administrador",
+      "addMember": "Agregar",
+      "skipStep": "Omitir por ahora",
+      "inviteSent": "Invitación enviada"
+    },
+    "template": {
+      "title": "Tu primera plantilla",
+      "subtitle": "Elige una plantilla para iniciar tu primer expediente",
+      "skipStep": "Omitir por ahora"
+    },
+    "welcome": {
+      "title": "¡Todo listo!",
+      "subtitle": "Tu despacho {orgName} está configurado. Vamos al dashboard.",
+      "goToDashboard": "Ir al dashboard"
+    }
+  },
+  "stepOf": "Paso {current} de {total}"
+}

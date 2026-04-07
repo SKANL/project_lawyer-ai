@@ -1,0 +1,17 @@
+{
+  "dashboard": "Dashboard",
+  "clients": "Clientes",
+  "cases": "Expedientes",
+  "tasks": "Tareas",
+  "documents": "Documentos",
+  "templates": "Plantillas",
+  "billing": "Facturación",
+  "settings": "Configuración",
+  "help": "Ayuda",
+  "logout": "Cerrar sesión",
+  "profile": "Mi perfil",
+  "organization": "Mi despacho",
+  "notifications": "Notificaciones",
+  "newCase": "Nuevo expediente",
+  "newClient": "Nuevo cliente"
+}
