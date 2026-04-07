@@ -123,7 +123,7 @@ export function CasesClient({ initialCases, clients, orgId }: CasesClientProps) 
                 <Plus className="h-4 w-4" />
                 <span className="hidden sm:inline">Nuevo Expediente</span>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-[95vw] sm:max-w-3xl lg:max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
               <DialogHeader>
                  <DialogTitle className="flex items-center gap-2">
                     <FileText className="h-5 w-5 text-primary" />

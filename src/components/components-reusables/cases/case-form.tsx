@@ -169,9 +169,18 @@ export function CaseForm({ clients, initialData, onSubmit, isLoading }: CaseForm
                   render={({ field }: { field: any }) => (
                     <FormItem>
                       <FormLabel>{t('legal_area')}</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ej: Familiar" {...field} />
-                      </FormControl>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Seleccionar" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {['Civil', 'Familiar', 'Penal', 'Mercantil', 'Laboral', 'Administrativo', 'Amparo', 'Otro'].map(area => (
+                            <SelectItem key={area} value={area}>{area}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

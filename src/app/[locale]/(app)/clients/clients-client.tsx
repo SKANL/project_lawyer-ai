@@ -148,7 +148,7 @@ export function ClientsClient({ initialClients, orgId, userId }: ClientsClientPr
 
       {/* DIÁLOGO CREAR/EDITAR */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-[95vw] sm:max-w-3xl lg:max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
           <DialogHeader>
             <DialogTitle>{editingClient ? t('edit_client') : t('new_client')}</DialogTitle>
             <DialogDescription>
