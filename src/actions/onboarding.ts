@@ -2,6 +2,8 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { sendEmail } from '@/lib/email/client';
+import WelcomeEmail from '@/emails/WelcomeEmail';
 
 export type OnboardingOrgData = {
   orgName: string;
@@ -62,15 +64,43 @@ export async function createOrganizationAction(data: OnboardingOrgData) {
 }
 
 /**
- * Marca el onboarding como completado.
+ * Marca el onboarding como completado y envía correo de bienvenida.
  */
 export async function completeOnboardingAction(orgId: string) {
   const supabase = await createClient();
 
-  await supabase
+  const { error: updateError } = await supabase
     .from('organizations')
     .update({ onboarding_completed: true })
     .eq('id', orgId);
+
+  if (updateError) {
+    return { error: 'Error al completar el onboarding' };
+  }
+
+  // Obtener datos del usuario logueado para enviarle el correo
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user?.email) {
+    // Buscar su nombre en perfiles
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('full_name')
+      .eq('id', user.id)
+      .single();
+
+    const lawyerName = profile?.full_name || 'Abogado';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://abogados.zentyar.com';
+    
+    // Disparar correo asincrónicamente sin bloquear el retorno
+    sendEmail({
+      to: user.email,
+      subject: 'Bienvenido a tu Despacho Digital - Abogado-Sala',
+      react: WelcomeEmail({
+        lawyerName,
+        dashboardUrl: `${baseUrl}/dashboard`,
+      }),
+    }).catch(err => console.error('Error enviando welcome email:', err));
+  }
 
   revalidatePath('/', 'layout');
   return { success: true };
