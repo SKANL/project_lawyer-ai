@@ -1,25 +1,15 @@
-import { getTranslations, getLocale } from 'next-intl/server';
-import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import type { Metadata } from 'next';
+import { createClient } from '@/lib/supabase/server';
+import { getLocale } from 'next-intl/server';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/components-reusables/layout/app-sidebar';
 import { DashboardHeader } from '@/components/components-reusables/layout/dashboard-header';
 
 /**
- * Verifica que el usuario tenga sesión activa.
- * Si no tiene sesión, redirige al login.
- * Si no completó el onboarding, redirige al wizard.
+ * Layout del área de Expedientes.
+ * Comparte el shell principal de la aplicación.
  */
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('dashboard');
-  return {
-    title: t('title'),
-    description: t('overview'),
-  };
-}
-
-export default async function AppLayout({
+export default async function CasesLayout({
   children,
   params,
 }: {
@@ -33,22 +23,13 @@ export default async function AppLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect(`/${locale}/auth/login`);
-  }
+  if (!user) redirect(`/${locale}/auth/login`);
 
-  // Verificar si el onboarding fue completado
   const { data: profile } = await supabase
     .from('profiles')
     .select('full_name, avatar_url, org_id')
     .eq('id', user.id)
     .single();
-
-  const hasOrg = !!profile?.org_id;
-
-  if (!hasOrg) {
-    redirect(`/${locale}/onboarding`);
-  }
 
   const { data: organization } = await supabase
     .from('organizations')

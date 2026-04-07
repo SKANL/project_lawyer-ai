@@ -1,0 +1,49 @@
+{
+  "title": "Expedientes",
+  "description": "Tablero de gestión de procesos legales.",
+  "new_case": "Nuevo Expediente",
+  "edit_case": "Editar Expediente",
+  "case_details": "Detalles del Proceso",
+  "search_placeholder": "Buscar por título o número...",
+  "empty_state": "No hay expedientes activos.",
+  "empty_description": "Cree su primer expediente para comenzar el seguimiento legal.",
+  "kanban": {
+    "default_view": "Vista por Mesas",
+    "list_view": "Vista Lista",
+    "filters": "Filtros",
+    "assigned_to": "Abogado",
+    "legal_area": "Materia",
+    "all_lawyers": "Todos los Abogados",
+    "all_areas": "Todas las Materias"
+  },
+  "fields": {
+    "title": "Título del Caso",
+    "client": "Cliente",
+    "official_id": "Núm. de Expediente Oficial",
+    "court_name": "Juzgado / Tribunal",
+    "legal_area": "Materia Legal",
+    "legal_action": "Acción Procesal",
+    "opposition_party": "Parte Contraria",
+    "start_date": "Fecha de Inicio",
+    "end_date": "Fecha de Resolución Estimada",
+    "notes": "Resumen Judicial",
+    "status": "Etapa Procesal"
+  },
+  "status": {
+    "draft": "Borrador",
+    "in_progress": "En Curso",
+    "pending_docs": "Documentación",
+    "review": "En Revisión",
+    "suspended": "Suspendido",
+    "completed": "Finalizado",
+    "cancelled": "Cancelado",
+    "archived": "Archivado"
+  },
+  "custom_fields": {
+    "title": "Otros Datos",
+    "add_field": "Añadir Dato",
+    "field_name": "Etiqueta del campo",
+    "field_value": "Dato legal",
+    "placeholder": "Ej: Número de amparo, Sala, Turno..."
+  }
+}

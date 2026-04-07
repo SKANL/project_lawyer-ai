@@ -1,0 +1,35 @@
+{
+  "title": "Clients",
+  "description": "Manage your directory of clients and contacts.",
+  "new_client": "New Client",
+  "edit_client": "Edit Client",
+  "client_details": "Client Details",
+  "search_placeholder": "Search by name, email or Tax ID...",
+  "empty_state": "No registered clients.",
+  "empty_description": "Start by adding your first client to manage their cases.",
+  "fields": {
+    "full_name": "Full Name / Company Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "tax_id": "Tax ID / Social Security",
+    "type": "Client Type",
+    "address": "Full Address",
+    "birthday": "Birthday / Date of Incorporation",
+    "notes": "Internal Notes",
+    "status": "Status",
+    "individual": "Individual",
+    "company": "Company"
+  },
+  "status": {
+    "prospect": "Prospect",
+    "active": "Active",
+    "archived": "Archived"
+  },
+  "custom_fields": {
+    "title": "Custom Fields",
+    "add_field": "Add Field",
+    "field_name": "Field label",
+    "field_value": "Value",
+    "placeholder": "e.g., Social Media, Reference ID..."
+  }
+}

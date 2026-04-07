@@ -1,0 +1,35 @@
+{
+  "title": "Clientes",
+  "description": "Gestione su directorio de clientes y contactos.",
+  "new_client": "Nuevo Cliente",
+  "edit_client": "Editar Cliente",
+  "client_details": "Detalles del Cliente",
+  "search_placeholder": "Buscar por nombre, email o RFC...",
+  "empty_state": "No hay clientes registrados.",
+  "empty_description": "Comience agregando su primer cliente para gestionar sus casos.",
+  "fields": {
+    "full_name": "Nombre Completo / Razón Social",
+    "email": "Correo Electrónico",
+    "phone": "Teléfono",
+    "tax_id": "RFC / Tax ID",
+    "type": "Tipo de Cliente",
+    "address": "Dirección",
+    "birthday": "Fecha de Nacimiento / Institución",
+    "notes": "Notas Internas",
+    "status": "Estado",
+    "individual": "Persona Física",
+    "company": "Persona Moral"
+  },
+  "status": {
+    "prospect": "Prospecto",
+    "active": "Activo",
+    "archived": "Archivado"
+  },
+  "custom_fields": {
+    "title": "Otros Campos",
+    "add_field": "Añadir Campo",
+    "field_name": "Nombre del dato",
+    "field_value": "Valor",
+    "placeholder": "Ej: CURP, NSS, Redes Sociales..."
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "title": "Cases / Matters",
+  "description": "Legal process management board.",
+  "new_case": "New Case",
+  "edit_case": "Edit Case",
+  "case_details": "Matter Details",
+  "search_placeholder": "Search by title or official ID...",
+  "empty_state": "No active cases.",
+  "empty_description": "Create your first case to start the legal tracking.",
+  "kanban": {
+    "default_view": "Kanban / Board",
+    "list_view": "List View",
+    "filters": "Filters",
+    "assigned_to": "Lawyer",
+    "legal_area": "Legal Area",
+    "all_lawyers": "All Lawyers",
+    "all_areas": "All Areas"
+  },
+  "fields": {
+    "title": "Matter Title",
+    "client": "Client",
+    "official_id": "Official Matter ID",
+    "court_name": "Court / Tribunal",
+    "legal_area": "Legal Area",
+    "legal_action": "Procedural Action",
+    "opposition_party": "Opposition Party",
+    "start_date": "Start Date",
+    "end_date": "Estimated End Date",
+    "notes": "Matter Summary",
+    "status": "Stage / Status"
+  },
+  "status": {
+    "draft": "Draft",
+    "in_progress": "In Progress",
+    "pending_docs": "Pending Documentation",
+    "review": "In Review",
+    "suspended": "Suspended",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "archived": "Archived"
+  },
+  "custom_fields": {
+    "title": "Custom Fields",
+    "add_field": "Add Data",
+    "field_name": "Label Name",
+    "field_value": "Legal detail",
+    "placeholder": "e.g., Chamber, Section, Filing ID..."
+  }
+}

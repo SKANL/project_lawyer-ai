@@ -5,6 +5,8 @@ import navigation from './navigation.json';
 import onboarding from './onboarding.json';
 import dashboard from './dashboard.json';
 import studio from './studio.json';
+import clients from './clients.json';
+import cases from './cases.json';
 
 export default {
   common,
@@ -13,4 +15,6 @@ export default {
   onboarding,
   dashboard,
   studio,
+  clients,
+  cases,
 };
