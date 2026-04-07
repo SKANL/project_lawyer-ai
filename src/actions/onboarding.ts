@@ -25,23 +25,24 @@ export async function createOrganizationAction(data: OnboardingOrgData) {
     return { error: 'No autenticado' };
   }
 
-  // Generar un slug simple basado en el nombre y un aleatorio corto
+  // Generar ID previamente para evitar problemas de RLS (selección antes de membresía)
+  const newOrgId = crypto.randomUUID();
   const slug = data.orgName.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Math.random().toString(36).substring(2, 6);
 
   // Insertar la organización
-  const { data: org, error: orgError } = await supabase
+  const { error: orgError } = await supabase
     .from('organizations')
     .insert({
+      id: newOrgId,
       name: data.orgName,
       slug: slug,
       country_code: data.countryCode,
       plan_tier: 'pro',
       onboarding_completed: false,
-    })
-    .select('id')
-    .single();
+    });
 
-  if (orgError || !org) {
+  if (orgError) {
+    console.error('Organization creation error:', orgError);
     return { error: 'Error al crear el despacho' };
   }
 
@@ -49,7 +50,7 @@ export async function createOrganizationAction(data: OnboardingOrgData) {
   const { error: profileError } = await supabase
     .from('profiles')
     .update({
-      org_id: org.id,
+      org_id: newOrgId,
       role: 'owner',
       status: 'active',
     })
@@ -60,7 +61,7 @@ export async function createOrganizationAction(data: OnboardingOrgData) {
   }
 
   revalidatePath('/', 'layout');
-  return { success: true, orgId: org.id };
+  return { success: true, orgId: newOrgId };
 }
 
 /**

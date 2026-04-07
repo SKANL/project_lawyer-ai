@@ -1,7 +1,5 @@
-@import "tailwindcss";
-
-/* ── Google Fonts ─────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+@import "tailwindcss";
 
 /* ── Design Tokens — Abogado-Sala V2 ─────────────────────── */
 /* Paleta: Slate oscuro + Indigo como accent + Amber como hint premium */
@@ -157,4 +155,127 @@ body {
 
 .animate-slide-in {
   animation: slide-in-right 0.35s ease-out both;
+}
+
+/* ── Tiptap Editor Styles ─────────────────────────── */
+.ProseMirror .tableWrapper {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.ProseMirror table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+
+.ProseMirror table td,
+.ProseMirror table th {
+  min-width: 1em;
+  border: 1.5px solid var(--border);
+  padding: 8px 12px;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.ProseMirror table th {
+  font-weight: 600;
+  text-align: left;
+  background-color: var(--muted);
+}
+
+.ProseMirror .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: "";
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(200, 200, 255, 0.2);
+  pointer-events: none;
+}
+
+.ProseMirror .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: -2px;
+  width: 4px;
+  background-color: #adf;
+  pointer-events: none;
+}
+
+.ProseMirror.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}
+
+/* Gapcursor styling */
+.ProseMirror .ProseMirror-gapcursor {
+  display: none;
+  pointer-events: none;
+  position: absolute;
+}
+
+.ProseMirror .ProseMirror-gapcursor:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  width: 20px;
+  border-top: 1px solid black;
+  animation: ProseMirror-cursor-blink 1.1s steps(2, start) infinite;
+}
+
+@keyframes ProseMirror-cursor-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+.ProseMirror-focused .ProseMirror-gapcursor {
+  display: block;
+}
+
+.ProseMirror p {
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+}
+
+.ProseMirror ul[data-type="taskList"] {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0.5em 0 !important;
+}
+
+.ProseMirror li[data-type="taskItem"] {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 0.5rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.ProseMirror li[data-type="taskItem"] > label {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: 0 !important;
+  user-select: none !important;
+  flex-shrink: 0 !important;
+}
+
+.ProseMirror li[data-type="taskItem"] > label > input {
+  cursor: pointer !important;
+  margin: 0 !important;
+}
+
+.ProseMirror li[data-type="taskItem"] > div {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.ProseMirror li[data-type="taskItem"] > div > p {
+  margin: 0 !important;
 }

@@ -25,8 +25,23 @@ import {
   Redo,
   SaveAll,
   Check,
+  Subscript as SubscriptIcon,
+  Superscript as SuperscriptIcon,
+  Table as TableIcon,
+  CheckSquare,
+  Link2,
+  Calendar,
+  Binary,
+  BookText,
+  Palette,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 import { Editor } from '@tiptap/react';
 
@@ -166,6 +181,41 @@ export function LegalToolbar({ editor, isSaving = false }: LegalToolbarProps) {
           <Highlighter className="h-3.5 w-3.5" />
         </ToolbarButton>
 
+        <ToolbarButton
+          onClick={() => editor.chain().focus().toggleSubscript().run()}
+          isActive={editor.isActive('subscript')}
+          label="Subíndice"
+        >
+          <SubscriptIcon className="h-3.5 w-3.5" />
+        </ToolbarButton>
+
+        <ToolbarButton
+          onClick={() => editor.chain().focus().toggleSuperscript().run()}
+          isActive={editor.isActive('superscript')}
+          label="Superíndice"
+        >
+          <SuperscriptIcon className="h-3.5 w-3.5" />
+        </ToolbarButton>
+
+        <ToolbarButton
+          onClick={() => {
+            const previousUrl = editor.getAttributes('link').href
+            const url = window.prompt('URL', previousUrl)
+            if (url === null) {
+              return
+            }
+            if (url === '') {
+              editor.chain().focus().extendMarkRange('link').unsetLink().run()
+              return
+            }
+            editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+          }}
+          isActive={editor.isActive('link')}
+          label="Enlace"
+        >
+          <Link2 className="h-3.5 w-3.5" />
+        </ToolbarButton>
+
         <ToolbarDivider />
 
         {/* Encabezados */}
@@ -220,6 +270,14 @@ export function LegalToolbar({ editor, isSaving = false }: LegalToolbarProps) {
           <Quote className="h-3.5 w-3.5" />
         </ToolbarButton>
 
+        <ToolbarButton
+          onClick={() => editor.chain().focus().toggleTaskList().run()}
+          isActive={editor.isActive('taskList')}
+          label="Lista de tareas"
+        >
+          <CheckSquare className="h-3.5 w-3.5" />
+        </ToolbarButton>
+
         <ToolbarDivider />
 
         {/* Alineación */}
@@ -254,6 +312,116 @@ export function LegalToolbar({ editor, isSaving = false }: LegalToolbarProps) {
         >
           <AlignJustify className="h-3.5 w-3.5" />
         </ToolbarButton>
+
+        <ToolbarDivider />
+
+        <ToolbarButton
+          onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
+          isActive={editor.isActive('table')}
+          label="Insertar tabla"
+        >
+          <TableIcon className="h-3.5 w-3.5" />
+        </ToolbarButton>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className={cn(
+              "group flex h-8 w-8 items-center justify-center rounded-md hover:bg-muted",
+              editor.isActive('textStyle') && "bg-muted text-foreground"
+            )}
+            title="Color del texto"
+          >
+            <Palette className="h-3.5 w-3.5" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-[200px] grid grid-cols-5 gap-1 p-2">
+            {[
+              { color: '#000000', name: 'Negro' },
+              { color: '#4b5563', name: 'Gris' },
+              { color: '#ef4444', name: 'Rojo' },
+              { color: '#f97316', name: 'Naranja' },
+              { color: '#f59e0b', name: 'Ámbar' },
+              { color: '#eab308', name: 'Amarillo' },
+              { color: '#84cc16', name: 'Lima' },
+              { color: '#10b981', name: 'Esmeralda' },
+              { color: '#06b6d4', name: 'Cian' },
+              { color: '#3b82f6', name: 'Azul' },
+              { color: '#6366f1', name: 'Índigo' },
+              { color: '#8b5cf6', name: 'Violeta' },
+              { color: '#a855f7', name: 'Morado' },
+              { color: '#d946ef', name: 'Fucsia' },
+              { color: '#ec4899', name: 'Rosa' },
+            ].map(({ color, name }) => (
+              <DropdownMenuItem
+                key={color}
+                className="flex aspect-square h-7 w-7 items-center justify-center rounded-md p-0 cursor-pointer focus:bg-accent"
+                onClick={() => editor.chain().focus().setColor(color).run()}
+                title={name}
+              >
+                <div
+                  className={cn(
+                    "h-5 w-5 rounded-full ring-offset-background transition-all hover:scale-110 shadow-sm border border-border/50",
+                    editor.isActive('textStyle', { color }) && "ring-2 ring-ring ring-offset-2"
+                  )}
+                  style={{ backgroundColor: color }}
+                />
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuItem
+              className="col-span-1 flex aspect-square h-7 w-7 items-center justify-center rounded-md p-0 cursor-pointer focus:bg-accent"
+              onClick={() => editor.chain().focus().unsetColor().run()}
+              title="Restablecer"
+            >
+              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-border/50 bg-background text-[10px] font-bold text-muted-foreground ring-offset-background transition-all hover:scale-110">
+                /
+              </div>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <ToolbarButton
+          onClick={() => editor.chain().focus().insertLegalDate().run()}
+          label="Fecha Legal"
+        >
+          <Calendar className="h-3.5 w-3.5" />
+        </ToolbarButton>
+
+        <ToolbarButton
+          onClick={() => editor.chain().focus().convertNumberToWords().run()}
+          label="Números a Letras"
+        >
+          <Binary className="h-3.5 w-3.5" />
+        </ToolbarButton>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className="group flex h-8 w-8 items-center justify-center rounded-md hover:bg-muted"
+            aria-label="Librería de cláusulas"
+          >
+            <BookText className="h-3.5 w-3.5 text-muted-foreground group-hover:text-foreground" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem 
+              onClick={() => editor.chain().focus().insertContent('<b>Jurisdicción y Competencia.</b> Para la interpretación y cumplimiento del presente contrato, así como para todo lo no previsto en el mismo, las partes se someten expresamente a la jurisdicción y competencia de los tribunales de la Ciudad de México, renunciando expresamente a cualquier otro fuero que por razón de sus domicilios presentes o futuros, o por cualquier otra causa, pudiere corresponderles.').run()}
+              className="cursor-pointer"
+            >
+              Cláusula de Jurisdicción
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={() => editor.chain().focus().insertContent('<b>Confidencialidad.</b> Las Partes acuerdan mantener en estricta confidencialidad toda la Información Confidencial recibida o a la que tengan acceso con motivo de la celebración o ejecución de este contrato.').run()}
+              className="cursor-pointer"
+            >
+              Cláusula de Confidencialidad
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={() => editor.chain().focus().insertContent('<b>Fuerza Mayor.</b> Ninguna de las Partes será responsable por cualquier retraso o incumplimiento de sus obligaciones bajo este contrato si dicho retraso o incumplimiento es causado directa o indirectamente por un evento de Caso Fortuito o Fuerza Mayor.').run()}
+              className="cursor-pointer"
+            >
+              Cláusula de Fuerza Mayor
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <ToolbarDivider />
 
         {/* Indicador de guardado */}
         <div className="ml-auto flex items-center gap-1.5 shrink-0">

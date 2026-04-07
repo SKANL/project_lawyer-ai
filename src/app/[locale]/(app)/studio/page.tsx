@@ -7,6 +7,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Metadata } from 'next';
+import { DocumentMenuButton } from '@/components/components-reusables/studio/document-menu';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('studio');
@@ -112,18 +113,10 @@ export default async function StudioPage({
                   {/* Icono + título */}
                   <div className="flex items-start justify-between gap-2 mb-auto">
                     <FileText className="h-5 w-5 shrink-0 mt-0.5 text-muted-foreground" />
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        // TODO: Menú de opciones (renombrar, eliminar, duplicar)
-                      }}
-                      aria-label="Opciones del documento"
-                    >
-                      <MoreHorizontal className="h-3.5 w-3.5" />
-                    </Button>
+                    
+                    <div>
+                      <DocumentMenuButton documentId={doc.id} documentTitle={doc.title} />
+                    </div>
                   </div>
 
                   <div className="mt-3">

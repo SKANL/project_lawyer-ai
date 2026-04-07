@@ -429,10 +429,6 @@ function StepTeam({ onNext, onSkip }: { onNext: () => void; onSkip: () => void }
     }
   }
 
-  function useState<T>(initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
-    return (window as never as { React: typeof import('react') }).React.useState(initialValue);
-  }
-
   return (
     <div className="space-y-7">
       <div className="space-y-2">

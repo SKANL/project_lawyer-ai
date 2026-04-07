@@ -169,7 +169,7 @@ export default async function DashboardPage({
         </div>
         <Link href={`/${locale}/cases/new`} className={buttonVariants({ variant: 'default' })}>
           <Plus className="mr-2 h-4 w-4" />
-          {t('actions.newCase')}
+          {t('quickActions.newCase')}
         </Link>
       </div>
 
@@ -207,7 +207,7 @@ export default async function DashboardPage({
               <CardDescription>Últimas actualizaciones de tus expedientes</CardDescription>
             </div>
             <Link href={`/${locale}/cases`} className={buttonVariants({ variant: 'ghost', size: 'sm' })}>
-              {t('cases.viewAll')}
+              {t('recentCases.viewAll')}
               <ArrowUpRight className="ml-2 h-4 w-4" />
             </Link>
           </CardHeader>
@@ -220,7 +220,7 @@ export default async function DashboardPage({
                 </p>
                 <Link href={`/${locale}/cases/new`} className={buttonVariants({ variant: 'outline', size: 'sm', className: "w-full justify-start mt-2" })}>
                   <Plus className="mr-2 h-4 w-4" />
-                  {t('actions.newCase')}
+                  {t('quickActions.newCase')}
                 </Link>
               </div>
             ) : (

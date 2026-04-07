@@ -37,5 +37,13 @@
     "description": "¿Estás seguro? Esta acción no se puede deshacer.",
     "confirm": "Eliminar",
     "cancel": "Cancelar"
+  },
+  "actions": {
+    "deleted": "Documento eliminado correctamente.",
+    "duplicated": "Documento duplicado.",
+    "renamed": "Documento renombrado.",
+    "rename": "Renombrar",
+    "duplicate": "Duplicar",
+    "delete": "Eliminar"
   }
 }

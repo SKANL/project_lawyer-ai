@@ -1,12 +1,32 @@
 'use client';
 
-import { Tiptap, useEditor } from '@tiptap/react';
+import { Tiptap, useEditor, useCurrentEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import CharacterCount from '@tiptap/extension-character-count';
 import Highlight from '@tiptap/extension-highlight';
+
+// Nuevas extensiones open source
+import Subscript from '@tiptap/extension-subscript';
+import Superscript from '@tiptap/extension-superscript';
+import { Table } from '@tiptap/extension-table';
+import { TableRow } from '@tiptap/extension-table-row';
+import { TableHeader } from '@tiptap/extension-table-header';
+import { TableCell } from '@tiptap/extension-table-cell';
+import TaskItem from '@tiptap/extension-task-item';
+import TaskList from '@tiptap/extension-task-list';
+import Link from '@tiptap/extension-link';
+import { Color } from '@tiptap/extension-color';
+import { TextStyle } from '@tiptap/extension-text-style';
+import Typography from '@tiptap/extension-typography';
+import Gapcursor from '@tiptap/extension-gapcursor';
+
+// Custom extensiones
+import { LegalDate } from './extensions/legal-date';
+import { NumberToWords } from './extensions/number-to-words';
+
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
@@ -28,7 +48,8 @@ interface LegalEditorProps {
  * Construido con TipTap v3 Composable API + SSR-safe (immediatelyRender: false).
  *
  * Includes: Bold, Italic, Underline, Strike, Headings, Lists, Alignment,
- * Blockquote, Highlight, CharacterCount, Placeholder
+ * Blockquote, Highlight, CharacterCount, Placeholder, Subscript, Superscript,
+ * Table, TaskList, Link, Color, Typography, LegalDate, NumberToWords.
  */
 export function LegalEditor({
   initialContent,
@@ -58,6 +79,36 @@ export function LegalEditor({
       }),
       Highlight.configure({ multicolor: false }),
       CharacterCount,
+      Subscript,
+      Superscript,
+      Gapcursor,
+      Table.configure({
+        resizable: true,
+        allowTableNodeSelection: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
+      TaskList.configure({
+        HTMLAttributes: {
+          class: 'not-prose flex flex-col gap-1 pl-4 my-4',
+        },
+      }),
+      TaskItem.configure({
+        nested: true,
+        HTMLAttributes: {
+          class: 'flex flex-row items-center gap-2',
+        },
+      }),
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+      }),
+      TextStyle,
+      Color,
+      Typography,
+      LegalDate.configure({ locale: 'es' }),
+      NumberToWords,
     ],
     content: initialContent ?? { type: 'doc', content: [{ type: 'paragraph' }] },
     editable: !readOnly,
@@ -83,9 +134,13 @@ export function LegalEditor({
     return () => { editor.off('update', handler); };
   }, [editor]);
 
+  if (!editor) {
+    return null;
+  }
+
   return (
     <div className="flex h-full flex-col">
-      <Tiptap instance={editor ?? undefined}>
+      <Tiptap instance={editor}>
         {/* Toolbar sticky */}
         <div className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
           <LegalToolbar editor={editor} isSaving={isSaving} />
@@ -136,12 +191,11 @@ function WordCountFooter() {
 }
 
 function WordCount() {
-  const editor = useEditor({
-    extensions: [],
-    immediatelyRender: false,
-  });
+  const { editor } = useCurrentEditor();
 
-  // Usamos Tiptap composable context via useTiptap inside Tiptap component
-  // El conteo se hace directamente desde el editor en el footer
-  return <span>—</span>;
+  if (!editor) {
+    return <span>—</span>;
+  }
+
+  return <span>{editor.storage.characterCount?.words() ?? 0}</span>;
 }
