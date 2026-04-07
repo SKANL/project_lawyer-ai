@@ -1,0 +1,33 @@
+{
+  "title": "Dashboard",
+  "welcome": "Bienvenido de vuelta",
+  "overview": "Resumen del despacho",
+  "stats": {
+    "activeClients": "Clientes activos",
+    "openCases": "Expedientes abiertos",
+    "pendingTasks": "Tareas pendientes",
+    "documentsThisMonth": "Documentos este mes"
+  },
+  "quickActions": {
+    "title": "Acciones rápidas",
+    "newCase": "Nuevo expediente",
+    "newClient": "Nuevo cliente",
+    "newDocument": "Nuevo documento",
+    "newTask": "Nueva tarea"
+  },
+  "recentActivity": {
+    "title": "Actividad reciente",
+    "empty": "No hay actividad reciente",
+    "viewAll": "Ver todo"
+  },
+  "upcomingTasks": {
+    "title": "Próximas tareas",
+    "empty": "No tienes tareas pendientes",
+    "viewAll": "Ver todas"
+  },
+  "recentCases": {
+    "title": "Expedientes recientes",
+    "empty": "No hay expedientes abiertos",
+    "viewAll": "Ver todos"
+  }
+}

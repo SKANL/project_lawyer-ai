@@ -1,0 +1,41 @@
+{
+  "title": "Studio Jurídico",
+  "newDocument": "Nuevo documento",
+  "untitled": "Documento sin título",
+  "lastSaved": "Guardado hace",
+  "saving": "Guardando...",
+  "saved": "Guardado",
+  "wordCount": "palabras",
+  "toolbar": {
+    "bold": "Negrita",
+    "italic": "Cursiva",
+    "underline": "Subrayado",
+    "strike": "Tachado",
+    "heading1": "Título 1",
+    "heading2": "Título 2",
+    "heading3": "Título 3",
+    "bulletList": "Lista de puntos",
+    "orderedList": "Lista numerada",
+    "blockquote": "Cita",
+    "alignLeft": "Alinear izquierda",
+    "alignCenter": "Centrar",
+    "alignRight": "Alinear derecha",
+    "alignJustify": "Justificar",
+    "highlight": "Resaltar",
+    "link": "Insertar enlace",
+    "undo": "Deshacer",
+    "redo": "Rehacer"
+  },
+  "placeholder": "Empieza a escribir tu documento legal...",
+  "empty": {
+    "title": "Sin documentos",
+    "description": "Crea tu primer documento legal en el Studio Jurídico",
+    "action": "Crear documento"
+  },
+  "delete": {
+    "title": "Eliminar documento",
+    "description": "¿Estás seguro? Esta acción no se puede deshacer.",
+    "confirm": "Eliminar",
+    "cancel": "Cancelar"
+  }
+}

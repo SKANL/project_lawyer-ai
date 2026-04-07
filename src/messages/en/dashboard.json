@@ -1,0 +1,33 @@
+{
+  "title": "Dashboard",
+  "welcome": "Welcome back",
+  "overview": "Firm overview",
+  "stats": {
+    "activeClients": "Active clients",
+    "openCases": "Open cases",
+    "pendingTasks": "Pending tasks",
+    "documentsThisMonth": "Documents this month"
+  },
+  "quickActions": {
+    "title": "Quick actions",
+    "newCase": "New case",
+    "newClient": "New client",
+    "newDocument": "New document",
+    "newTask": "New task"
+  },
+  "recentActivity": {
+    "title": "Recent activity",
+    "empty": "No recent activity",
+    "viewAll": "View all"
+  },
+  "upcomingTasks": {
+    "title": "Upcoming tasks",
+    "empty": "No pending tasks",
+    "viewAll": "View all"
+  },
+  "recentCases": {
+    "title": "Recent cases",
+    "empty": "No open cases",
+    "viewAll": "View all"
+  }
+}

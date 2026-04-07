@@ -1,0 +1,41 @@
+{
+  "title": "Legal Studio",
+  "newDocument": "New document",
+  "untitled": "Untitled document",
+  "lastSaved": "Saved",
+  "saving": "Saving...",
+  "saved": "Saved",
+  "wordCount": "words",
+  "toolbar": {
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "strike": "Strikethrough",
+    "heading1": "Heading 1",
+    "heading2": "Heading 2",
+    "heading3": "Heading 3",
+    "bulletList": "Bullet list",
+    "orderedList": "Ordered list",
+    "blockquote": "Blockquote",
+    "alignLeft": "Align left",
+    "alignCenter": "Center",
+    "alignRight": "Align right",
+    "alignJustify": "Justify",
+    "highlight": "Highlight",
+    "link": "Insert link",
+    "undo": "Undo",
+    "redo": "Redo"
+  },
+  "placeholder": "Start writing your legal document...",
+  "empty": {
+    "title": "No documents",
+    "description": "Create your first legal document in the Legal Studio",
+    "action": "Create document"
+  },
+  "delete": {
+    "title": "Delete document",
+    "description": "Are you sure? This action cannot be undone.",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  }
+}
