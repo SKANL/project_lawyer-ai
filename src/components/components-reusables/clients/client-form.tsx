@@ -93,10 +93,12 @@ export function ClientForm({ initialData, onSubmit, isLoading }: ClientFormProps
                   render={({ field }: { field: any }) => (
                     <FormItem>
                       <FormLabel>{t('type')}</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || undefined}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue />
+                            <SelectValue placeholder="Seleccionar tipo...">
+                            {(val) => val ? t(val as any) : "Seleccionar tipo..."}
+                          </SelectValue>
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>

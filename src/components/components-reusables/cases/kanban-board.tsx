@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   DndContext, 
   DragOverlay, 
@@ -38,6 +38,9 @@ export interface CaseItem {
   status: string;
   client: { full_name: string };
   start_date: string | null;
+  legal_area: string | null;
+  opposition_party: string | null;
+  notes: string | null;
 }
 
 interface KanbanBoardProps {
@@ -46,12 +49,11 @@ interface KanbanBoardProps {
 }
 
 const COLUMNS = [
-  { id: 'draft', label: 'Eorrador' },
-  { id: 'pending_docs', label: 'Documentación' },
-  { id: 'in_progress', label: 'En Proceso' },
-  { id: 'review', label: 'Revisión' },
-  { id: 'suspended', label: 'Suspendido' },
-  { id: 'completed', label: 'Completado' },
+  { id: 'draft' },
+  { id: 'active' },
+  { id: 'review' },
+  { id: 'suspended' },
+  { id: 'closed' },
 ];
 
 /**
@@ -61,6 +63,11 @@ export function KanbanBoard({ initialCases, onStatusChange }: KanbanBoardProps) 
   const ts = useTranslations('cases.status');
   const [cases, setCases] = useState<CaseItem[]>(initialCases);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [originalStatus, setOriginalStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    setCases(initialCases);
+  }, [initialCases]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -73,6 +80,10 @@ export function KanbanBoard({ initialCases, onStatusChange }: KanbanBoardProps) 
 
   const handleDragStart = (event: DragStartEvent) => {
     setActiveId(event.active.id as string);
+    const activeCaseVal = cases.find(c => c.id === event.active.id);
+    if (activeCaseVal) {
+      setOriginalStatus(activeCaseVal.status);
+    }
   };
 
   const handleDragOver = (event: DragOverEvent) => {
@@ -101,19 +112,27 @@ export function KanbanBoard({ initialCases, onStatusChange }: KanbanBoardProps) 
     }
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     setActiveId(null);
     if (!over) return;
 
     const activeIdVal = active.id as string;
-    const overIdVal = over.id as string;
-
     const activeCaseVal = cases.find(c => c.id === activeIdVal);
     if (!activeCaseVal) return;
 
-    // Persistir cambio
-    onStatusChange(activeIdVal, activeCaseVal.status);
+    // Persistir cambio optimista
+    try {
+      await onStatusChange(activeIdVal, activeCaseVal.status);
+    } catch (e) {
+      // Revertir en caso de fallo (Optimistic UI Fallback)
+      if (originalStatus) {
+        setCases(prev => prev.map(c => 
+          c.id === activeIdVal ? { ...c, status: originalStatus } : c
+        ));
+      }
+    }
+    setOriginalStatus(null);
   };
 
   const dropAnimation: DropAnimation = {
@@ -134,8 +153,8 @@ export function KanbanBoard({ initialCases, onStatusChange }: KanbanBoardProps) 
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <ScrollArea className="w-full whitespace-nowrap rounded-md border border-border/10 bg-slate-50/10 dark:bg-zinc-950/20 p-4">
-        <div className="flex gap-4 min-h-[calc(100vh-280px)] pb-4">
+      <div className="w-full bg-slate-50/5 dark:bg-zinc-950/10 rounded-xl p-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 min-h-[calc(100vh-280px)]">
           {COLUMNS.map(col => (
             <KanbanColumn 
               key={col.id} 
@@ -144,13 +163,13 @@ export function KanbanBoard({ initialCases, onStatusChange }: KanbanBoardProps) 
               count={getCasesByStatus(col.id).length}
             >
               <SortableContext items={getCasesByStatus(col.id).map(c => c.id)} strategy={verticalListSortingStrategy}>
-                <div className="space-y-3 min-h-[150px]">
+                <div className="space-y-3 min-h-[200px]">
                   {getCasesByStatus(col.id).map(c => (
                     <CaseCard key={c.id} caseData={c} />
                   ))}
                   {getCasesByStatus(col.id).length === 0 && (
-                    <div className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-border/20 rounded-xl bg-muted/5">
-                       <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Vacío</p>
+                    <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-border/10 rounded-2xl bg-muted/5 opacity-40">
+                       <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Sin Asuntos</p>
                     </div>
                   )}
                 </div>
@@ -158,8 +177,7 @@ export function KanbanBoard({ initialCases, onStatusChange }: KanbanBoardProps) 
             </KanbanColumn>
           ))}
         </div>
-        <ScrollBar orientation="horizontal" className="pt-2" />
-      </ScrollArea>
+      </div>
 
       <DragOverlay dropAnimation={dropAnimation}>
         {activeCase ? (

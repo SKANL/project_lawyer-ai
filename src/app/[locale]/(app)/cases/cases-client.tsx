@@ -70,14 +70,21 @@ export function CasesClient({ initialCases, clients, orgId }: CasesClientProps) 
   };
 
   const handleStatusChange = async (id: string, newStatus: string) => {
-    toast.promise(
-      updateCaseStatus(id, newStatus),
-      {
-        loading: 'Actualizando estatus...',
-        success: 'Estatus actualizado',
-        error: 'Error al actualizar',
-      }
-    );
+    return new Promise<void>((resolve, reject) => {
+      toast.promise(
+        updateCaseStatus(id, newStatus)
+          .then(() => resolve())
+          .catch((e) => {
+            reject(e);
+            throw e;
+          }),
+        {
+          loading: 'Actualizando estatus...',
+          success: 'Estatus actualizado',
+          error: 'Error al actualizar',
+        }
+      );
+    });
   };
 
   return (
@@ -123,7 +130,7 @@ export function CasesClient({ initialCases, clients, orgId }: CasesClientProps) 
                 <Plus className="h-4 w-4" />
                 <span className="hidden sm:inline">Nuevo Expediente</span>
             </DialogTrigger>
-            <DialogContent className="max-w-[95vw] sm:max-w-3xl lg:max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+            <DialogContent className="max-w-[95vw] sm:max-w-2xl w-full max-h-[90vh] overflow-y-auto bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
               <DialogHeader>
                  <DialogTitle className="flex items-center gap-2">
                     <FileText className="h-5 w-5 text-primary" />

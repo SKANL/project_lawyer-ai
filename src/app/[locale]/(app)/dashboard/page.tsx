@@ -70,19 +70,19 @@ async function getRecentCases(orgId: string) {
 }
 
 const caseStatusColors: Record<string, string> = {
-  open: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-  in_progress: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-  pending_review: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-  closed: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20',
-  archived: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20',
+  draft: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20',
+  active: 'bg-primary/10 text-primary border-primary/20 font-bold',
+  review: 'bg-amber-500/10 text-amber-500 border-amber-500/20',
+  suspended: 'bg-destructive/10 text-destructive border-destructive/20',
+  closed: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
 };
 
 const caseStatusLabels: Record<string, string> = {
-  open: 'Abierto',
-  in_progress: 'En Progreso',
-  pending_review: 'En Revisión',
-  closed: 'Cerrado',
-  archived: 'Archivado',
+  draft: 'Borrador',
+  active: 'En Trámite',
+  review: 'En Revisión',
+  suspended: 'Pausado',
+  closed: 'Finalizado',
 };
 
 export default async function DashboardPage({

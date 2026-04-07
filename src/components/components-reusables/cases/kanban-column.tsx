@@ -24,7 +24,7 @@ export function KanbanColumn({ id, title, count, children }: KanbanColumnProps) 
   return (
     <div 
       className={cn(
-        "flex flex-col w-[320px] min-w-[320px] shrink-0 rounded-2xl bg-muted/40 border border-border/40 p-4 transition-colors duration-200",
+        "flex flex-col w-full min-w-0 rounded-2xl bg-muted/40 border border-border/40 p-4 transition-colors duration-200",
         isOver && "bg-primary/5 border-primary/20 ring-1 ring-primary/20"
       )}
     >

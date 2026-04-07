@@ -10,6 +10,7 @@ import {
 import { ClientList } from '@/components/components-reusables/clients/client-list';
 import { ClientForm } from '@/components/components-reusables/clients/client-form';
 import { createClient } from '@/lib/supabase/client';
+import { createClientMutation, updateClient } from '@/actions/clients';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
@@ -61,19 +62,10 @@ export function ClientsClient({ initialClients, orgId, userId }: ClientsClientPr
     setIsSubmitting(true);
     try {
       if (editingClient) {
-        const { error } = await supabase
-          .from('clients')
-          .update(values)
-          .eq('id', editingClient.id);
-        
-        if (error) throw error;
+        await updateClient(editingClient.id, values);
         toast.success("Cliente actualizado con éxito");
       } else {
-        const { error } = await supabase
-          .from('clients')
-          .insert([{ ...values, org_id: orgId, assigned_lawyer_id: userId }]);
-        
-        if (error) throw error;
+        await createClientMutation(values, orgId, userId);
         toast.success("Nuevo cliente registrado");
       }
 

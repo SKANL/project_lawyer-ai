@@ -30,14 +30,16 @@
     "status": "Etapa Procesal"
   },
   "status": {
-    "draft": "Borrador",
-    "in_progress": "En Curso",
-    "pending_docs": "Documentación",
+    "draft": "Borrador / Preparación",
+    "active": "En Trámite",
     "review": "En Revisión",
-    "suspended": "Suspendido",
-    "completed": "Finalizado",
-    "cancelled": "Cancelado",
-    "archived": "Archivado"
+    "suspended": "Pausado / Detenido",
+    "closed": "Finalizado / Cerrado",
+    "in_progress": "En Trámite (Migrando...)",
+    "pending_docs": "Borrador (Migrando...)",
+    "completed": "Finalizado (Migrando...)",
+    "cancelled": "Pausado (Migrando...)",
+    "archived": "Archivado (Migrando...)"
   },
   "custom_fields": {
     "title": "Otros Datos",
