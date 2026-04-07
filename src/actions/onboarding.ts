@@ -23,13 +23,17 @@ export async function createOrganizationAction(data: OnboardingOrgData) {
     return { error: 'No autenticado' };
   }
 
+  // Generar un slug simple basado en el nombre y un aleatorio corto
+  const slug = data.orgName.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Math.random().toString(36).substring(2, 6);
+
   // Insertar la organización
   const { data: org, error: orgError } = await supabase
     .from('organizations')
     .insert({
       name: data.orgName,
+      slug: slug,
       country_code: data.countryCode,
-      plan: 'trial',
+      plan_tier: 'pro',
       onboarding_completed: false,
     })
     .select('id')
