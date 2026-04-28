@@ -19,6 +19,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
+import type { LegalArea } from '@/app/[locale]/(app)/cases/cases-client';
 
 const caseSchema = z.object({
   title: z.string().min(3, { message: "Mínimo 3 caracteres" }),
@@ -26,6 +27,8 @@ const caseSchema = z.object({
   official_id: z.string().optional(),
   court_name: z.string().optional(),
   legal_area: z.string().optional(),
+  legal_area_id: z.string().uuid().optional().nullable(),
+  stage_id: z.string().uuid().optional().nullable(),
   legal_action: z.string().optional(),
   opposition_party: z.string().optional(),
   status: z.enum(['draft', 'active', 'review', 'suspended', 'closed']).default('active'),
@@ -39,12 +42,13 @@ type CaseFormValues = z.infer<typeof caseSchema>;
 
 interface CaseFormProps {
   clients: { id: string; name: string }[];
+  legalAreas?: LegalArea[];
   initialData?: Partial<CaseFormValues>;
   onSubmit: (data: CaseFormValues) => void;
   isLoading?: boolean;
 }
 
-export function CaseForm({ clients, initialData, onSubmit, isLoading }: CaseFormProps) {
+export function CaseForm({ clients, legalAreas = [], initialData, onSubmit, isLoading }: CaseFormProps) {
   const t = useTranslations('cases.fields');
   const ts = useTranslations('cases.status');
 
@@ -56,6 +60,8 @@ export function CaseForm({ clients, initialData, onSubmit, isLoading }: CaseForm
       official_id: initialData?.official_id || '',
       court_name: initialData?.court_name || '',
       legal_area: initialData?.legal_area || '',
+      legal_area_id: initialData?.legal_area_id || null,
+      stage_id: initialData?.stage_id || null,
       legal_action: initialData?.legal_action || '',
       opposition_party: initialData?.opposition_party || '',
       status: initialData?.status || 'active',
@@ -65,6 +71,11 @@ export function CaseForm({ clients, initialData, onSubmit, isLoading }: CaseForm
       metadata: initialData?.metadata || {},
     } as any,
   });
+
+  // Reactividad: filtrar etapas según la materia seleccionada
+  const watchedAreaId = form.watch('legal_area_id');
+  const availableStages = legalAreas.find(la => la.id === watchedAreaId)?.legal_area_stages ?? [];
+  const hasLegalAreas = legalAreas.length > 0;
 
   return (
     <Form {...form}>
@@ -196,20 +207,38 @@ export function CaseForm({ clients, initialData, onSubmit, isLoading }: CaseForm
             />
             <FormField
               control={form.control}
-              name="legal_area"
+              name={hasLegalAreas ? 'legal_area_id' : 'legal_area'}
               render={({ field }: { field: any }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/90">{t('legal_area')}</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select 
+                    onValueChange={(val) => {
+                      field.onChange(val);
+                      // Al cambiar materia, resetear la etapa seleccionada
+                      if (hasLegalAreas) {
+                        form.setValue('stage_id', null);
+                        // Sincronizar el campo legacy legal_area con el nombre
+                        const areaName = legalAreas.find(la => la.id === val)?.name;
+                        if (areaName) form.setValue('legal_area', areaName);
+                      }
+                    }} 
+                    value={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className="bg-background/80">
                         <SelectValue placeholder="Seleccionar materia..." />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="bg-background/95 backdrop-blur-xl">
-                      {['Civil', 'Familiar', 'Penal', 'Mercantil', 'Laboral', 'Administrativo', 'Amparo', 'Otro'].map(area => (
-                        <SelectItem key={area} value={area}>{area}</SelectItem>
-                      ))}
+                      {hasLegalAreas ? (
+                        legalAreas.map(area => (
+                          <SelectItem key={area.id} value={area.id}>{area.name}</SelectItem>
+                        ))
+                      ) : (
+                        ['Civil', 'Familiar', 'Penal', 'Mercantil', 'Laboral', 'Administrativo', 'Amparo', 'Otro'].map(area => (
+                          <SelectItem key={area} value={area}>{area}</SelectItem>
+                        ))
+                      )}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -217,6 +246,34 @@ export function CaseForm({ clients, initialData, onSubmit, isLoading }: CaseForm
               )}
             />
           </div>
+
+          {/* Etapa Procesal Dinámica — Solo aparece si hay materias con etapas configuradas */}
+          {hasLegalAreas && availableStages.length > 0 && (
+            <FormField
+              control={form.control}
+              name="stage_id"
+              render={({ field }: { field: any }) => (
+                <FormItem>
+                  <FormLabel className="text-foreground/90">Etapa Procesal</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value ?? undefined}>
+                    <FormControl>
+                      <SelectTrigger className="bg-background/80">
+                        <SelectValue placeholder="Seleccionar etapa...">
+                          {(val) => availableStages.find(s => s.id === val)?.name || "Seleccionar..."}
+                        </SelectValue>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-background/95 backdrop-blur-xl">
+                      {availableStages.map(stage => (
+                        <SelectItem key={stage.id} value={stage.id}>{stage.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           <FormField
             control={form.control}

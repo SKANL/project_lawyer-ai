@@ -77,6 +77,7 @@ const caseStatusColors: Record<string, string> = {
   closed: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
 };
 
+// Status labels ahora via i18n (fallback hardcoded para dashboard que no tiene acceso a useTranslations)
 const caseStatusLabels: Record<string, string> = {
   draft: 'Borrador',
   active: 'En Trámite',

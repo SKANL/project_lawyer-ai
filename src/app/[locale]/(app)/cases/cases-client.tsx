@@ -29,18 +29,37 @@ import {
 } from '@/components/ui/dialog';
 import { CaseForm } from '@/components/components-reusables/cases/case-form';
 import { toast } from 'sonner';
-import { createCase, updateCaseStatus, updateCase } from '@/actions/cases';
+import { createCase, updateCaseStatus, updateCaseStage, updateCase } from '@/actions/cases';
+
+/** Tipo para la estructura de materia legal con sus etapas */
+export interface LegalAreaStage {
+  id: string;
+  name: string;
+  slug: string;
+  display_order: number;
+  color: string | null;
+  is_terminal: boolean;
+}
+
+export interface LegalArea {
+  id: string;
+  name: string;
+  slug: string;
+  display_order: number;
+  legal_area_stages: LegalAreaStage[];
+}
 
 interface CasesClientProps {
   initialCases: CaseItem[];
   clients: { id: string, name: string }[];
   orgId: string;
+  legalAreas: LegalArea[];
 }
 
 /**
  * CasesClient — Controlador de la vista de Expedientes (Kanban + Filtros).
  */
-export function CasesClient({ initialCases, clients, orgId }: CasesClientProps) {
+export function CasesClient({ initialCases, clients, orgId, legalAreas }: CasesClientProps) {
   const t = useTranslations('cases');
   const [view, setView] = useState<'kanban' | 'list'>('kanban');
   const [searchTerm, setSearchTerm] = useState('');
@@ -53,9 +72,15 @@ export function CasesClient({ initialCases, clients, orgId }: CasesClientProps) 
                           c.client?.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           c.official_id?.toLowerCase().includes(searchTerm.toLowerCase());
     
-    // Aquí podrías añadir filtros por Área si estuvieran en el objeto CaseItem
-    return matchesSearch;
+    // Filtrar por materia legal si hay un área seleccionada
+    const matchesArea = !selectedArea || c.legal_area_id === selectedArea || 
+                        c.legal_area?.toLowerCase() === legalAreas.find(la => la.id === selectedArea)?.name.toLowerCase();
+    return matchesSearch && matchesArea;
   });
+
+  // Obtener las etapas de la materia seleccionada (para Kanban dinámico)
+  const selectedAreaData = selectedArea ? legalAreas.find(la => la.id === selectedArea) : null;
+  const activeStages = selectedAreaData?.legal_area_stages ?? [];
 
   const handleCreateCase = async (data: any) => {
     setIsAddingCase(true);
@@ -141,7 +166,7 @@ export function CasesClient({ initialCases, clients, orgId }: CasesClientProps) 
                  </DialogDescription>
               </DialogHeader>
               <div className="py-4">
-                <CaseForm clients={clients} onSubmit={handleCreateCase} isLoading={isAddingCase} />
+                <CaseForm clients={clients} legalAreas={legalAreas} onSubmit={handleCreateCase} isLoading={isAddingCase} />
               </div>
             </DialogContent>
           </Dialog>
@@ -170,9 +195,20 @@ export function CasesClient({ initialCases, clients, orgId }: CasesClientProps) 
             <DropdownMenuContent align="end" className="w-[200px]">
               <DropdownMenuLabel>Filtrar por Especialidad</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {['Civil', 'Familiar', 'Penal', 'Mercantil', 'Laboral'].map(area => (
-                <DropdownMenuCheckboxItem key={area} checked={selectedArea === area} onCheckedChange={() => setSelectedArea(area)}>
-                  {area}
+              <DropdownMenuCheckboxItem 
+                checked={selectedArea === null} 
+                onCheckedChange={() => setSelectedArea(null)}
+              >
+                Todas las materias
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuSeparator />
+              {legalAreas.map(area => (
+                <DropdownMenuCheckboxItem 
+                  key={area.id} 
+                  checked={selectedArea === area.id} 
+                  onCheckedChange={() => setSelectedArea(selectedArea === area.id ? null : area.id)}
+                >
+                  {area.name}
                 </DropdownMenuCheckboxItem>
               ))}
             </DropdownMenuContent>
@@ -197,7 +233,12 @@ export function CasesClient({ initialCases, clients, orgId }: CasesClientProps) 
       {/* CONTENIDO PRINCIPAL: KANBAN O LISTA */}
       <div className="flex-1 overflow-hidden">
         {view === 'kanban' ? (
-          <KanbanBoard initialCases={filteredCases} onStatusChange={handleStatusChange} />
+          <KanbanBoard 
+            initialCases={filteredCases} 
+            onStatusChange={handleStatusChange}
+            legalAreas={legalAreas}
+            activeStages={activeStages}
+          />
         ) : (
           <div className="p-8 text-center bg-background/40 border border-dashed border-border/50 rounded-2xl">
               <p className="text-muted-foreground">Vista de lista en desarrollo. Usa el Kanban mientras tanto.</p>

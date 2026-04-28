@@ -48,6 +48,14 @@ export default async function CasesPage({
     .eq('org_id', profile.org_id)
     .order('full_name');
 
+  // 5. Obtener catálogo de materias legales con sus etapas procesales
+  const { data: legalAreasData } = await supabase
+    .from('legal_areas')
+    .select('id, name, slug, display_order, legal_area_stages(id, name, slug, display_order, color, is_terminal)')
+    .eq('org_id', profile.org_id)
+    .eq('is_active', true)
+    .order('display_order');
+
   if (casesError) {
     return (
       <div className="p-10 text-center">
@@ -67,12 +75,21 @@ export default async function CasesPage({
     name: cl.full_name
   }));
 
+  // Normalizar legal_areas: ordenar stages internos por display_order
+  const legalAreas = (legalAreasData || []).map((la: any) => ({
+    ...la,
+    legal_area_stages: (la.legal_area_stages || []).sort(
+      (a: any, b: any) => (a.display_order ?? 0) - (b.display_order ?? 0)
+    ),
+  }));
+
   return (
     <Suspense fallback={<CasesLoading />}>
       <CasesClient 
         initialCases={cases} 
         clients={clients} 
         orgId={profile.org_id}
+        legalAreas={legalAreas}
       />
     </Suspense>
   );

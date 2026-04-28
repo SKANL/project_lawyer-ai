@@ -46,6 +46,17 @@ export async function createOrganizationAction(data: OnboardingOrgData) {
     return { error: 'Error al crear el despacho' };
   }
 
+  // Poblar catálogo de materias legales y etapas procesales para la nueva organización
+  // (Penal → Carpeta de Investigación/Juzgado/Sentencia, Civil → Demanda/En Trámite/Sentencia, etc.)
+  const { error: seedError } = await supabase.rpc('seed_default_legal_areas', {
+    p_org_id: newOrgId,
+  });
+
+  if (seedError) {
+    // No bloquear el onboarding si falla el seeder — las materias se pueden agregar después
+    console.warn('Warning: seed_default_legal_areas failed:', seedError.message);
+  }
+
   // Actualizar el perfil del usuario con el org_id
   const { error: profileError } = await supabase
     .from('profiles')

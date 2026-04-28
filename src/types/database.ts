@@ -230,13 +230,23 @@ export type Database = {
           assigned_to: string | null
           case_number: string | null
           client_id: string
+          court_name: string | null
           created_at: string
           created_by: string | null
           current_step_index: number
+          end_date: string | null
           expires_at: string
           id: string
+          legal_action: string | null
+          legal_area: string | null
+          legal_area_id: string | null
+          metadata: Json | null
+          official_id: string | null
+          opposition_party: string | null
           org_id: string
           questionnaire_answers: Json | null
+          stage_id: string | null
+          start_date: string | null
           status: Database["public"]["Enums"]["case_status"]
           template_id: string | null
           template_snapshot: Json
@@ -248,13 +258,23 @@ export type Database = {
           assigned_to?: string | null
           case_number?: string | null
           client_id: string
+          court_name?: string | null
           created_at?: string
           created_by?: string | null
           current_step_index?: number
+          end_date?: string | null
           expires_at?: string
           id?: string
+          legal_action?: string | null
+          legal_area?: string | null
+          legal_area_id?: string | null
+          metadata?: Json | null
+          official_id?: string | null
+          opposition_party?: string | null
           org_id: string
           questionnaire_answers?: Json | null
+          stage_id?: string | null
+          start_date?: string | null
           status?: Database["public"]["Enums"]["case_status"]
           template_id?: string | null
           template_snapshot?: Json
@@ -266,13 +286,23 @@ export type Database = {
           assigned_to?: string | null
           case_number?: string | null
           client_id?: string
+          court_name?: string | null
           created_at?: string
           created_by?: string | null
           current_step_index?: number
+          end_date?: string | null
           expires_at?: string
           id?: string
+          legal_action?: string | null
+          legal_area?: string | null
+          legal_area_id?: string | null
+          metadata?: Json | null
+          official_id?: string | null
+          opposition_party?: string | null
           org_id?: string
           questionnaire_answers?: Json | null
+          stage_id?: string | null
+          start_date?: string | null
           status?: Database["public"]["Enums"]["case_status"]
           template_id?: string | null
           template_snapshot?: Json
@@ -303,10 +333,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "cases_legal_area_id_fkey"
+            columns: ["legal_area_id"]
+            isOneToOne: false
+            referencedRelation: "legal_areas"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "cases_org_id_fkey"
             columns: ["org_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cases_stage_id_fkey"
+            columns: ["stage_id"]
+            isOneToOne: false
+            referencedRelation: "legal_area_stages"
             referencedColumns: ["id"]
           },
           {
@@ -320,45 +364,57 @@ export type Database = {
       }
       clients: {
         Row: {
+          address: string | null
           assigned_lawyer_id: string | null
           auth_user_id: string | null
+          birthday: string | null
           created_at: string
           email: string | null
           full_name: string
           id: string
+          metadata: Json | null
           notes: string | null
           org_id: string
           phone: string | null
           status: Database["public"]["Enums"]["client_status"]
           tax_id: string | null
+          type: Database["public"]["Enums"]["client_type"]
           updated_at: string
         }
         Insert: {
+          address?: string | null
           assigned_lawyer_id?: string | null
           auth_user_id?: string | null
+          birthday?: string | null
           created_at?: string
           email?: string | null
           full_name: string
           id?: string
+          metadata?: Json | null
           notes?: string | null
           org_id: string
           phone?: string | null
           status?: Database["public"]["Enums"]["client_status"]
           tax_id?: string | null
+          type?: Database["public"]["Enums"]["client_type"]
           updated_at?: string
         }
         Update: {
+          address?: string | null
           assigned_lawyer_id?: string | null
           auth_user_id?: string | null
+          birthday?: string | null
           created_at?: string
           email?: string | null
           full_name?: string
           id?: string
+          metadata?: Json | null
           notes?: string | null
           org_id?: string
           phone?: string | null
           status?: Database["public"]["Enums"]["client_status"]
           tax_id?: string | null
+          type?: Database["public"]["Enums"]["client_type"]
           updated_at?: string
         }
         Relationships: [
@@ -582,6 +638,88 @@ export type Database = {
             columns: ["requester_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      legal_area_stages: {
+        Row: {
+          color: string | null
+          display_order: number | null
+          id: string
+          is_active: boolean | null
+          is_terminal: boolean | null
+          legal_area_id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          color?: string | null
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          is_terminal?: boolean | null
+          legal_area_id: string
+          name: string
+          slug: string
+        }
+        Update: {
+          color?: string | null
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          is_terminal?: boolean | null
+          legal_area_id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "legal_area_stages_legal_area_id_fkey"
+            columns: ["legal_area_id"]
+            isOneToOne: false
+            referencedRelation: "legal_areas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      legal_areas: {
+        Row: {
+          created_at: string | null
+          display_order: number | null
+          id: string
+          is_active: boolean | null
+          is_system: boolean | null
+          name: string
+          org_id: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string | null
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          is_system?: boolean | null
+          name: string
+          org_id: string
+          slug: string
+        }
+        Update: {
+          created_at?: string | null
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          is_system?: boolean | null
+          name?: string
+          org_id?: string
+          slug?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "legal_areas_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -1152,6 +1290,10 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      seed_default_legal_areas: {
+        Args: { p_org_id: string }
+        Returns: undefined
+      }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
       submit_questionnaire_answers: {
@@ -1162,11 +1304,26 @@ export type Database = {
         Args: { p_step_index: number; p_token: string }
         Returns: undefined
       }
+      update_case_stage: {
+        Args: { p_case_id: string; p_new_stage_id: string; p_reason?: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_locale: "es" | "en"
-      case_status: "draft" | "in_progress" | "review" | "completed" | "archived"
+      case_status:
+        | "draft"
+        | "in_progress"
+        | "review"
+        | "completed"
+        | "archived"
+        | "pending_docs"
+        | "suspended"
+        | "cancelled"
+        | "active"
+        | "closed"
       client_status: "prospect" | "active" | "archived"
+      client_type: "individual" | "company"
       file_status: "pending" | "uploaded" | "error" | "approved" | "rejected"
       invitation_status: "pending" | "accepted" | "expired" | "revoked"
       plan_status:
@@ -1316,8 +1473,20 @@ export const Constants = {
   public: {
     Enums: {
       app_locale: ["es", "en"],
-      case_status: ["draft", "in_progress", "review", "completed", "archived"],
+      case_status: [
+        "draft",
+        "in_progress",
+        "review",
+        "completed",
+        "archived",
+        "pending_docs",
+        "suspended",
+        "cancelled",
+        "active",
+        "closed",
+      ],
       client_status: ["prospect", "active", "archived"],
+      client_type: ["individual", "company"],
       file_status: ["pending", "uploaded", "error", "approved", "rejected"],
       invitation_status: ["pending", "accepted", "expired", "revoked"],
       plan_status: [

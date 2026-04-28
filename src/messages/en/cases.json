@@ -31,10 +31,12 @@
   },
   "status": {
     "draft": "Draft",
+    "active": "Active",
     "in_progress": "In Progress",
     "pending_docs": "Pending Documentation",
     "review": "In Review",
     "suspended": "Suspended",
+    "closed": "Closed",
     "completed": "Completed",
     "cancelled": "Cancelled",
     "archived": "Archived"
